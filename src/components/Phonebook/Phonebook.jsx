@@ -1,82 +1,68 @@
-import { useState,Component } from 'react';
+import { useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { nanoid } from 'nanoid';
-import { addContact } from 'redux/actions';
+
+import { addContact, deleteContact } from 'redux/actions';
 
 import styles from './phonebook.module.scss'
-import items from '../items';
+
 import ContactList from '../ContactList/ContactList';
 import ContactFilter from '../Filter/Filter';
 import ContactForm from '../ContactForm/ContactForm';
 
-class Phonebook extends Component {
+const Phonebook = () => {
 
-    contacts = useSelector(store => store.contacts),
-    const filter [filter, setFilter] = useState("");
+    const contacts = useSelector(store => store.contacts);
+    const [filter, setFilter] = useState("");
 
-  removeContact = id => {
-    this.setState(({ items }) => {
-      const newContacts = items.filter(item => item.id !== id);
-      return { items: newContacts };
-    });
-  };
-  /*
-  addContact = ({ name, number }) => {
-    if (this.isDublicate(name)) {
-      alert(`${name} is already in contacts`);
-      return false;
+    const dispatch = useDispatch();
+
+    const isDublicate = (name) => {
+      const normalized = name.toLowerCase();
+      const result  = contacts.find(({ name }) => {
+        return name.toLowerCase() === normalized;
+      });
+      return Boolean(result );
     }
-    this.setState(prevState => {
-      const { items } = prevState;
-      const newContact = {
-        id: nanoid(),
-        name,
-        number,
-      };
-      return { items: [newContact, ...items] };
-    });
-    return true;
+
+    const handleAddContact = ({ name, number }) => {
+      if (isDublicate(name)) {
+        alert(`${name} is already in contacts`);
+        return false;
+      }
+      const action = addContact({ name, number});
+      dispatch(action);
+    };
+
+    const handleDeleteBook= (id) => {
+      const action = deleteContact(id);
+      dispatch(action);
   };
-  */
-  handleFilter = ({ target }) => {
-    this.setState({ filter: target.value });
-  };
-/*
-  isDublicate(name) {
-    const normalized = name.toLowerCase();
-    const { items } = this.state;
-    const people = items.find(({ name }) => {
-      return name.toLowerCase() === normalized;
-    });
-    return Boolean(people);
-  }
-  */
-  getFilterContact() {
-    const { filter, items } = this.state;
+
+  const handleFilter = ({ target }) => setFilter(target.value);
+
+  const getFilteredContacts = () => {
     if (!filter) {
-      return items;
+        return contacts;
     }
     const normalizedFilter = filter.toLowerCase();
-    const result = items.filter(({ name }) => {
+    const result = contacts.filter(({ name }) => {
       return name.toLowerCase().includes(normalizedFilter);
     });
     return result;
   }
-  render() {
-    const { addContact, handleFilter, removeContact } = this;
-
-    const items = this.getFilterContact();
+    const filterContacts = getFilteredContacts();
+    const isContacts = Boolean(filterContacts.length)
     return (
       <div>
         <div className={styles.phonebook}>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={addContact} />
+        <ContactForm onSubmit={handleAddContact} />
         <h2>Contact</h2>
         <ContactFilter handleChange={handleFilter} />
-        <ContactList removeContact={removeContact} items={items} />
+        {isContacts &&<ContactList removeContact={handleDeleteBook} items={filterContacts} />}
+        {!isContacts && <p>No contacts in list</p>}
         </div>
       </div>
     );
-  }
 }
 export default Phonebook;
