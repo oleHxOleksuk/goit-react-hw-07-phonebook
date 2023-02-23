@@ -9,7 +9,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch(action.type){
     case ADD_CONTACT:
-      const newContact = [...state.contacts, payload];
+      const newContact = [...state.contacts, action.payload];
       return{...state, contacts: newContact}
       default:
         return state;
