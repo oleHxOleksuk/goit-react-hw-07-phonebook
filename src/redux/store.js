@@ -1,22 +1,8 @@
 import {createStore} from 'redux'
-import { nanoid } from 'nanoid';
+import reducer from './reducer';
 
 
-const reducer = (state) => {
-  return state;
-}
 
-const initialState = {
-  contacts: [
-    {
-      id: nanoid(),
-      name: "Sasha",
-      number: +369955457585
-    }
-  ],
-  filter: ""
-}
-
-const store = createStore(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default store;
