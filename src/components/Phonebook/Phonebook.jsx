@@ -2,9 +2,7 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 import styles from './phonebook.module.scss'
-
 import items from '../items';
-
 import ContactList from '../ContactList/ContactList';
 import ContactFilter from '../Filter/Filter';
 import ContactForm from '../ContactForm/ContactForm';
@@ -12,30 +10,15 @@ import ContactForm from '../ContactForm/ContactForm';
 class Phonebook extends Component {
   state = {
     items: [...items],
+
     filter: '',
   };
-
-  componentDidMount() {
-    const items = JSON.parse(localStorage.getItem('my-contacts'));
-    if (items?.length) {
-      this.setState({ items });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { items } = this.state;
-    if (prevState.items.length !== items.length) {
-      localStorage.setItem('my-contacts', JSON.stringify(items));
-    }
-  }
-
   removeContact = id => {
     this.setState(({ items }) => {
       const newContacts = items.filter(item => item.id !== id);
       return { items: newContacts };
     });
   };
-
   addContact = ({ name, number }) => {
     if (this.isDublicate(name)) {
       alert(`${name} is already in contacts`);
@@ -52,7 +35,6 @@ class Phonebook extends Component {
     });
     return true;
   };
-
   handleFilter = ({ target }) => {
     this.setState({ filter: target.value });
   };
@@ -65,7 +47,6 @@ class Phonebook extends Component {
     });
     return Boolean(people);
   }
-
   getFilterContact() {
     const { filter, items } = this.state;
     if (!filter) {
@@ -77,12 +58,10 @@ class Phonebook extends Component {
     });
     return result;
   }
-
   render() {
     const { addContact, handleFilter, removeContact } = this;
 
     const items = this.getFilterContact();
-
     return (
       <div>
         <div className={styles.phonebook}>
