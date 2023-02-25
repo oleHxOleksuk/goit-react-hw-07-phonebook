@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 
 import { addContact, deleteContact, setFilter } from 'redux/actions';
-import { getFilteredContacts, getFilter } from 'redux/selector';
+import { getFilteredContacts, getFilter, getAllContact } from 'redux/selector';
 
 import styles from './phonebook.module.scss'
 
@@ -12,13 +12,14 @@ import ContactForm from '../ContactForm/ContactForm';
 const Phonebook = () => {
 
     const filteredContacts = useSelector(getFilteredContacts);
+    const allContact = useSelector(getAllContact);
     const filter = useSelector(getFilter);
 
     const dispatch = useDispatch();
 
     const isDublicate = (name) => {
       const normalized = name.toLowerCase();
-      const result  = filteredContacts.find(({ name }) => {
+      const result  = allContact.find(({ name }) => {
         return name.toLowerCase() === normalized;
       });
       return Boolean(result );
@@ -41,8 +42,6 @@ const Phonebook = () => {
   const handleFilter = ({ target }) => {
     dispatch (setFilter(target.value))
   };
-
-
 
     const isContacts = Boolean(filteredContacts.length)
 
