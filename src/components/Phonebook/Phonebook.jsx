@@ -1,7 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addContact, deleteContact, setFilter } from 'redux/actions';
-import { getFilteredContacts, getFilter, getAllContact } from 'redux/selector';
+import { addContact, deleteContact } from 'redux/contacts/contacts-action';
+import { setFilter } from 'redux/filter/filter-action';
+
+import { getFilteredContacts, getAllContact } from 'redux/contacts/contacts-selector';
+import { getFilter } from 'redux/filter/filter-selector';
 
 import styles from './phonebook.module.scss'
 
