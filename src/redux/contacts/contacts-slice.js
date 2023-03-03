@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "nanoid";
+
+import {fetchAllContacts} from "./contacts-operation";
+
+const initialState = {
+  items: [],
+  loading: false,
+  error: null,
+}
 
 const contactsSlice = createSlice({
   name:"contacts",
