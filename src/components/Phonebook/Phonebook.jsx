@@ -5,7 +5,7 @@ import { setFilter } from 'redux/filter/filter-slice';
 
 import {fetchAllContact, fetchAddContact, fetchDeleteContact} from "../../redux/contacts/contacts-operation";
 
-import { getFilteredContacts, getAllContact } from 'redux/contacts/contacts-selector';
+import { getFilteredContacts} from 'redux/contacts/contacts-selector';
 import { getFilter } from 'redux/filter/filter-selector';
 
 import styles from './phonebook.module.scss'
