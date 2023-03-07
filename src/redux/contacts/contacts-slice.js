@@ -47,8 +47,8 @@ const contactsSlice = createSlice({
       .addCase(fetchDeleteContact.rejected, (store, { payload }) => {
         store.loading = false;
         store.error = payload;
-      })
-  }
+      });
+  },
 })
 
 export default contactsSlice.reducer;
